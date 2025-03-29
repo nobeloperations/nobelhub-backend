@@ -6,12 +6,15 @@ import { IntakeStage } from './intake-stage.entity';
 import { IntakeStageToIntern } from './intake-statge-to-intern.entity';
 
 export enum IntakeProgramType {
-  WEEKEND = 'weekend',
-  WEEKDAY = 'weekday'
+  WEEKEND = 'Weekend',
+  WEEKDAY = 'Weekday'
 }
 
 @Entity('intakes')
 export class Intake extends BaseEntity {
+  @Column({ name: 'name', type: 'text' })
+  name: string;
+
   @Column({ name: 'start_date', type: 'date' })
   startDate: Date;
 
