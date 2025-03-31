@@ -1,27 +1,15 @@
-import * as path from 'path';
-
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AppController } from './app.controller';
+import { IntakeUseCases } from '@domain/use-cases/intake.use-cases';
 
-const entitiesPath = path.resolve(__dirname, '../domain/entities/*.{js,ts}');
-console.log('Entities Path:', entitiesPath);
+import { IntakeController } from './controllers/intake.controller';
+
+import { DatabaseServiceModule } from '@infrastructure/database-service/database-service.module';
+import { TransactionManagerModule } from '@infrastructure/transaction-service/transaction-service.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'root',
-      password: 'password',
-      database: 'postgres',
-      entities: [entitiesPath],
-      synchronize: true // TODO: Only for dev
-    })
-  ],
-  controllers: [AppController],
-  providers: []
+  imports: [DatabaseServiceModule, TransactionManagerModule],
+  controllers: [IntakeController],
+  providers: [IntakeUseCases]
 })
 export class AppModule {}
