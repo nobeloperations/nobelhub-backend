@@ -85,5 +85,5 @@ export class ApiResponseDto<T> {
 
   @Expose()
   @ApiProperty({ description: 'The main response data' })
-  data?: T;
+  data?: T | T[];
 }

@@ -5,13 +5,14 @@ import { IntakeUseCases } from '@domain/use-cases/intake.use-cases';
 import { FilterQueryOptions } from '@domain/abstractions/database-service/query-options/filter.query-options';
 
 import { CreateIntakeDto, UpdateIntakeDto, FilterIntakeDto } from '@application/dtos';
-import { ApiTags } from '@nestjs/swagger';
-import { ResourceDocumentation } from '@application/documentation/decorators/resource-documentation.decorator';
-import { INTAKES_CONTROLLER_DOCUMENTATION } from '@application/documentation/resources/intake';
+import {
+  ResourceDocumentation,
+  INTAKE_OPERATIONS_DOCS,
+  INTAKE_RESOURCE_NAME
+} from '@application/documentation';
 
-@ApiTags('Intakes')
-@ResourceDocumentation(INTAKES_CONTROLLER_DOCUMENTATION)
-@Controller('intakes')
+@Controller(INTAKE_RESOURCE_NAME)
+@ResourceDocumentation(INTAKE_OPERATIONS_DOCS)
 export class IntakeController {
   constructor(private readonly _intakeUseCases: IntakeUseCases) {}
 
@@ -46,13 +47,13 @@ export class IntakeController {
   }
 
   @Put(':id')
-  async UpdateIntake(@Param('id') id: number, @Body() requestedIntakeData: UpdateIntakeDto) {
+  async UpdateIntakeById(@Param('id') id: number, @Body() requestedIntakeData: UpdateIntakeDto) {
     const intakeData = UpdateIntakeDto.toEntity(requestedIntakeData);
     return await this._intakeUseCases.UpdateIntakeById(id, intakeData);
   }
 
   @Delete(':id')
-  async DeleteIntake(@Param('id') id: number) {
+  async DeleteIntakeById(@Param('id') id: number) {
     return await this._intakeUseCases.DeleteIntakeById(id);
   }
 }

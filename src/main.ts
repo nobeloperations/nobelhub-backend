@@ -11,6 +11,9 @@ async function bootstrap() {
     .setDescription('API description')
     .setVersion('1.0')
     .build();
+  app.setGlobalPrefix('api/v1');
+
+  app.enableCors({ origin: true });
 
   const document = SwaggerModule.createDocument(app, config);
 

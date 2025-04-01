@@ -7,8 +7,6 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     container_name: postgres
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
 
@@ -16,12 +14,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nest-docker-postgres
-    environment:
-      - PORT=${PORT}
+    container_name: nest-app
     ports:
-      - '3000:3000'
+       - '8080:3000'
     depends_on:
       - db
-    volumes:
-      - ./src:/app/src
