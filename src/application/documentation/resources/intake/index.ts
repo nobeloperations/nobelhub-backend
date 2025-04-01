@@ -4,7 +4,7 @@ import { GET_RECORDS_LIST } from './operations/get-records-list.doc';
 import { UPDATE_RECORD_BY_ID } from './operations/update-record-by-id';
 import { DELETE_RECORD_BY_ID } from './operations/delete-record-by-id.doc';
 
-export const INTAKE_RESOURCE_NAME = 'intekes';
+export const INTAKE_RESOURCE_NAME = 'intakes';
 
 export const INTAKE_OPERATIONS_DOCS = {
   tag: 'Intakes',
