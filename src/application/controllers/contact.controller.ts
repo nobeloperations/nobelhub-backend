@@ -3,6 +3,7 @@ import { Controller, Param, Body, Get, Post, Put, Delete, Query } from '@nestjs/
 import { Contact } from '@domain/entities/contact.entity';
 import { ContactUseCases } from '@domain/use-cases/contact.use-cases';
 import { CreateContactDto, UpdateContactDto, FilterContactDto } from '@application/dtos';
+import { FilterQueryOptions } from '@domain/abstractions/database-service/query-options/filter.query-options';
 
 @Controller('contacts')
 export class ContactController {

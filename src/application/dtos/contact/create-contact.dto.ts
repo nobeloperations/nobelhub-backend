@@ -1,11 +1,12 @@
-import { Contact } from '@domain/entities/contact.entity';
+import { Contact, Gender } from '@domain/entities/contact.entity';
+
 
 export class CreateContactDto {
   firstName: string;
   lastName: string;
   email: string;
   country: string;
-  gender: string;
+  gender: Gender;
   birthdate: Date;
   timezoneName: string;
   mailingSubscription: boolean;
