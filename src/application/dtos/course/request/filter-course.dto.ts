@@ -8,21 +8,12 @@ export class FilterCoursesDto {
 
   @IsOptional()
   @IsString()
-  teachableId?: string;
-
-  @IsOptional()
-  @IsUrl()
-  resourceUrl?: string;
-
-  @IsOptional()
-  @IsString()
   sortBy?: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  tags?: string[];
-
+  tags?: [];
 
   @IsOptional()
   @IsIn(['asc', 'desc'])

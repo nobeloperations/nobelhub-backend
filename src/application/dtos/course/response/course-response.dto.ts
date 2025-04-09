@@ -1,5 +1,6 @@
 // import { CourseTagResponseDto } from './course-tag-response.dto';
-import { Expose } from 'class-transformer';
+import { Expose,Exclude } from 'class-transformer';
+@Exclude()
 export class CourseResponseDto {
 
   @Expose()

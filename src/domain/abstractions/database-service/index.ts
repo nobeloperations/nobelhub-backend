@@ -5,5 +5,5 @@ import ICourseTagRepository from './repositories/course-tag.abstract-repository'
 export abstract class DatabaseService {
   abstract intake: IIntakeRepository;
   abstract course: ICourseRepository;
-  abstract courseTag: ICourseTagRepository;
+  // abstract courseTag: ICourseTagRepository;
 }
