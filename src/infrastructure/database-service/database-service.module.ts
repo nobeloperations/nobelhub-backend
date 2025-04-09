@@ -12,6 +12,15 @@ import * as path from 'path';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
+<<<<<<< HEAD
+      host: 'localhost',
+      port: 5432,
+      username: 'root',
+      password: 'password',
+      database: 'postgres',
+      entities: [path.resolve(__dirname, '../../domain/entities/*.{js,ts}')],
+      synchronize: true
+=======
       host: 'db',
       port: 5432,
       username: 'postgres',
@@ -20,6 +29,7 @@ import * as path from 'path';
       synchronize: true,
       autoLoadEntities: true,
       entities: [path.resolve(__dirname, '../../domain/entities/*.{js,ts}')]
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
     }),
     TypeOrmModule.forFeature([Intake])
   ],

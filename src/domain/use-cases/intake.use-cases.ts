@@ -38,9 +38,25 @@ export class IntakeUseCases {
     intakeData.name = this.generateIntakeName(intakeData);
     intakeData.applicationDeadline = this.calculateApplicationDeadline(intakeData);
 
+<<<<<<< HEAD
+    try {
+      const createdIntake = await this._transactionManagerService.startTransaction(async tx => {
+        const intakeData2 = { ...intakeData, name: 'Another Intake Name' };
+        const createdIntake1 = await this._databaseService.intake.createRecord(intakeData, tx);
+        const createdIntake2 = await this._databaseService.intake.createRecord(intakeData2, tx);
+
+        throw new Error('Simulated error for transaction rollback');
+        return { createdIntake1, createdIntake2 };
+      });
+      return createdIntake;
+    } catch (error) {
+      console.error('Transaction failed:');
+    }
+=======
     const createdIntake = await this._databaseService.intake.createRecord(intakeData);
 
     return createdIntake;
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
   }
 
   public async GetIntakeById(id: number) {
@@ -69,4 +85,8 @@ export class IntakeUseCases {
 
     return deletedIntake;
   }
+<<<<<<< HEAD
+  
+=======
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
 }

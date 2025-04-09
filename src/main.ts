@@ -6,6 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+<<<<<<< HEAD
+=======
   const config = new DocumentBuilder()
     .setTitle('NobelHub API Documentation')
     .setDescription('API description')
@@ -19,6 +21,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api/docs', app, document);
 
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(3000);
 }

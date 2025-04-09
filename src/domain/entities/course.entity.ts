@@ -31,4 +31,5 @@ export class Course extends BaseEntity {
     inverseJoinColumn: { name: 'course_tag_id' }
   })
   tags: CourseTag[];
+
 }
