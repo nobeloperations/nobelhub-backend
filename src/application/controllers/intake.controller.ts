@@ -5,8 +5,19 @@ import { IntakeUseCases } from '@domain/use-cases/intake.use-cases';
 import { FilterQueryOptions } from '@domain/abstractions/database-service/query-options/filter.query-options';
 
 import { CreateIntakeDto, UpdateIntakeDto, FilterIntakeDto } from '@application/dtos';
+<<<<<<< HEAD
 
 @Controller('intakes')
+=======
+import {
+  ResourceDocumentation,
+  INTAKE_OPERATIONS_DOCS,
+  INTAKE_RESOURCE_NAME
+} from '@application/documentation';
+
+@Controller(INTAKE_RESOURCE_NAME)
+@ResourceDocumentation(INTAKE_OPERATIONS_DOCS)
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
 export class IntakeController {
   constructor(private readonly _intakeUseCases: IntakeUseCases) {}
 
@@ -41,13 +52,21 @@ export class IntakeController {
   }
 
   @Put(':id')
+<<<<<<< HEAD
   async UpdateIntake(@Param('id') id: number, @Body() requestedIntakeData: UpdateIntakeDto) {
+=======
+  async UpdateIntakeById(@Param('id') id: number, @Body() requestedIntakeData: UpdateIntakeDto) {
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
     const intakeData = UpdateIntakeDto.toEntity(requestedIntakeData);
     return await this._intakeUseCases.UpdateIntakeById(id, intakeData);
   }
 
   @Delete(':id')
+<<<<<<< HEAD
   async DeleteIntake(@Param('id') id: number) {
+=======
+  async DeleteIntakeById(@Param('id') id: number) {
+>>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
     return await this._intakeUseCases.DeleteIntakeById(id);
   }
 }
