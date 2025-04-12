@@ -14,12 +14,8 @@ import { TransactionManagerModule } from '@infrastructure/transaction-service/tr
 
 @Module({
   imports: [DatabaseServiceModule, TransactionManagerModule],
-<<<<<<< HEAD
+
   controllers: [IntakeController, CourseController],
   providers: [IntakeUseCases, CourseUseCases],
-=======
-  controllers: [IntakeController],
-  providers: [IntakeUseCases]
->>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
 })
 export class AppModule {}
