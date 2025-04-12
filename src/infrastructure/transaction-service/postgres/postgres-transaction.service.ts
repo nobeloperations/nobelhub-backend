@@ -1,4 +1,7 @@
-import { ITransaction, TransactionManagerService } from '@domain/abstractions/transaction-service';
+import {
+  ITransaction,
+  TransactionManagerService
+} from '@domain/abstractions/integrations/transaction-service';
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 

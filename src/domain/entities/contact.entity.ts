@@ -1,6 +1,5 @@
 import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 
-import { Event } from './event.entity';
 import { BaseEntity } from './base.entity';
 import { ContactTag } from './contact-tag.entity';
 
@@ -43,12 +42,4 @@ export class Contact extends BaseEntity {
     inverseJoinColumn: { name: 'tag_id' }
   })
   tags: ContactTag[];
-
-  @ManyToMany(() => Event)
-  @JoinTable({
-    name: 'contacts_events',
-    joinColumn: { name: 'contact_id' },
-    inverseJoinColumn: { name: 'event_id' }
-  })
-  events: Event[];
 }

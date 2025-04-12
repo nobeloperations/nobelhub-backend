@@ -1,17 +1,28 @@
 import { Entity, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
+import { Event } from './online-event.entity';
 import { Intake } from './intake.entity';
 import { BaseEntity } from './base.entity';
-import { Event } from './event.entity';
 import { IntakeStageToIntern } from './intake-statge-to-intern.entity';
+
+export enum IntakeStageType {
+  INTORO_COURSES = 'Intro Courses',
+  ADVANCED_LEADERSHIP = 'Advanced Leadership',
+  INTERNSHIP_ONBOARDING = 'Internship Onboarding',
+  INTERNSHIP_INITIATION = 'Internship Initiation',
+  LEADERSHIP_FOUNDATIONS = 'Leadership Foundations',
+  LEADERSHIP_PRACTICE_BIT = 'Leadership Practice BIT',
+  LEADERSHIP_PRACTICE_PAP = 'Leadership Practice PAP',
+  LEADERSHIP_PRACTICE_IWD = 'Leadership Practice IWD'
+}
 
 @Entity('intake_stages')
 export class IntakeStage extends BaseEntity {
-  @Column({ name: 'name', type: 'text' })
-  name: string;
+  @Column({ name: 'stage_type', type: 'text', enum: IntakeStageType })
+  stageType: IntakeStageType;
 
-  @Column({ name: 'description', type: 'text' })
-  description: string;
+  @Column({ name: 'details', type: 'text' })
+  details: string;
 
   @Column({ name: 'start_date', type: 'date' })
   startDate: Date;

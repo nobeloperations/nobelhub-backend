@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Event } from './event.entity';
+import { Event } from './online-event.entity';
 import { ScheduledCourse } from './scheduled-course.entity';
 
 @Entity('scheduled_courses_events')
