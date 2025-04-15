@@ -1,29 +1,30 @@
-import { Entity, Column, ManyToMany, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToMany, OneToMany, ManyToOne } from 'typeorm';
 
 import { Course } from './course.entity';
+import { Intake } from './intake.entity';
 import { BaseEntity } from './base.entity';
 import { InternToScheduledCourse } from './intern-to-scheduled-course.entity';
 import { ScheduledCourseToEvent } from './scheduled-course-to-event';
 
 @Entity('scheduled_courses')
 export class ScheduledCourse extends BaseEntity {
-  @Column({ name: 'name', type: 'text' })
-  name: string;
-
-  @Column({ name: 'description', type: 'text' })
-  description: string;
-
   @Column({ name: 'code', type: 'text' })
   code: string;
 
-  @Column({ name: 'teachable_id', type: 'timestamp' })
-  teachableId: Date;
+  @Column({ name: 'launch_date', type: 'date' })
+  launchDate: Date;
+
+  @Column({ name: 'duration_in_days', type: 'smallint' })
+  durationInDays: number;
 
   @Column({ name: 'resources_url', type: 'timestamp', unique: true })
   resourceUrl: string;
 
   @ManyToMany(() => Course, Course => Course.schdeuledCourses)
   course: Course;
+
+  @ManyToOne(() => Intake, intake => intake.scheduledCourses)
+  intake: Intake;
 
   @OneToMany(
     () => InternToScheduledCourse,

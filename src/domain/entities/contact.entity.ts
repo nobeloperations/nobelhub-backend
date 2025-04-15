@@ -1,7 +1,7 @@
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
-import { Event } from './event.entity';
 import { BaseEntity } from './base.entity';
+import { SentEmail } from './sent-emaiil.entity';
 import { ContactTag } from './contact-tag.entity';
 
 export enum Gender {
@@ -36,6 +36,9 @@ export class Contact extends BaseEntity {
   @Column({ name: 'mailing_subscription', type: 'boolean' })
   mailingSubscription: boolean;
 
+  @OneToMany(() => SentEmail, sentEmail => sentEmail.contact)
+  sentEmails: SentEmail[];
+
   @ManyToMany(() => ContactTag)
   @JoinTable({
     name: 'contacts_tags',
@@ -43,12 +46,4 @@ export class Contact extends BaseEntity {
     inverseJoinColumn: { name: 'tag_id' }
   })
   tags: ContactTag[];
-
-  @ManyToMany(() => Event)
-  @JoinTable({
-    name: 'contacts_events',
-    joinColumn: { name: 'contact_id' },
-    inverseJoinColumn: { name: 'event_id' }
-  })
-  events: Event[];
 }

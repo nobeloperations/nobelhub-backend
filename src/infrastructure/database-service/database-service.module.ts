@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Intake } from '@domain/entities/intake.entity';
-import { DatabaseService } from '@domain/abstractions/database-service';
+import { DatabaseService } from '@domain/abstractions/integration-services/database-service';
 
 import { IntakeRepository } from './postgres/repositories/intake.repositoyry';
 import { PostgresDatabaseService } from './postgres/postgres-database.service';
