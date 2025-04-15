@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 
 import { Intake } from '@domain/entities/intake.entity';
-import { ITransaction } from '@domain/abstractions/integrations/transaction-service';
-import { IIntakeRepository } from '@domain/abstractions/integrations/database-service/repositories/intake.abstract-repository';
-import { FilterQueryOptions } from '@domain/abstractions/integrations/database-service/query-options/filter.query-options';
+import { ITransaction } from '@domain/abstractions/integration-services/transaction-service';
+import IIntakeRepository from '@domain/abstractions/integration-services/database-service/repositories/intake.abstract-repository';
+import { FilterQueryOptions } from '@domain/abstractions/integration-services/database-service/query-options/filter.query-options';
 
 @Injectable()
 export class IntakeRepository implements IIntakeRepository {

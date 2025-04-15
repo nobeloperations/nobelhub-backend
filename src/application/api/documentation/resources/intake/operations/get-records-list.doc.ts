@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 
 import { RESPONSE_DTO_EXAMPLE } from '../examples';
-import { API_STATUS_MESSAGES } from '@application/documentation/consts/api-status-messages.constants';
+import { API_STATUS_MESSAGES } from '@application/api/documentation/consts/api-status-messages.constants';
 
 export const GET_RECORDS_LIST = {
   method: 'GetIntakesList',

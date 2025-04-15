@@ -1,6 +1,6 @@
-import { ITransaction } from '@domain/abstractions/integrations/transaction-service';
 import { ScheduledCourse } from '@domain/entities/scheduled-course.entity';
 
+import { ITransaction } from '../../transaction-service';
 import { FilterQueryOptions } from '../query-options/filter.query-options';
 import { PaginatedResponse } from '../data-models/paginated-response.model';
 

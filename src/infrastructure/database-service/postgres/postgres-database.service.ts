@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { DatabaseService } from '@domain/abstractions/integrations/database-service';
-import { IIntakeRepository } from '@domain/abstractions/integrations/database-service/repositories/intake.abstract-repository';
+import { DatabaseService } from '@domain/abstractions/integration-services/database-service';
+import IIntakeRepository from '@domain/abstractions/integration-services/database-service/repositories/intake.abstract-repository';
 
 import { IntakeRepository } from './repositories/intake.repositoyry';
 

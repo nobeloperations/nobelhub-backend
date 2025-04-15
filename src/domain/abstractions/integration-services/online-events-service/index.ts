@@ -20,5 +20,5 @@ export abstract class OnlineEventsService {
     event: OnlineEvent,
     dates: { start: Date; end: Date }[],
     recurringOptions: RecurrenceOptions
-  ): Promise<Event[]>;
+  ): Promise<OnlineEvent[]>;
 }

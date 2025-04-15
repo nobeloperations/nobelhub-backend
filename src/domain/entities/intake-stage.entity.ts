@@ -1,6 +1,5 @@
 import { Entity, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
-import { Event } from './online-event.entity';
 import { Intake } from './intake.entity';
 import { BaseEntity } from './base.entity';
 import { IntakeStageToIntern } from './intake-statge-to-intern.entity';

@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { Intake, IntakeProgramType } from '@domain/entities/intake.entity';
 import { IntakeStage, IntakeStageType } from '@domain/entities/intake-stage.entity';
 
-import { DatabaseService } from '@domain/abstractions/integrations/database-service';
-import { OnlineEventsService } from '@domain/abstractions/integrations/online-events-service';
-import { TransactionManagerService } from '@domain/abstractions/integrations/transaction-service';
-import { FilterQueryOptions } from '@domain/abstractions/integrations/database-service/query-options/filter.query-options';
+import { DatabaseService } from '@domain/abstractions/integration-services/database-service';
+import { OnlineEventsService } from '@domain/abstractions/integration-services/online-events-service';
+import { TransactionManagerService } from '@domain/abstractions/integration-services/transaction-service';
+import { FilterQueryOptions } from '@domain/abstractions/integration-services/database-service/query-options/filter.query-options';
 
 const IntakeStagesScheduleConfigurations: Record<
   IntakeProgramType,
@@ -97,35 +97,6 @@ export class IntakeUseCases {
 
     this._transactionManagerService.startTransaction(async tx => {
       const createdIntake = await this._databaseService.intake.createRecord(intakeData, tx);
-      const dates = [
-        { start: '2025-04-15T09:00:00Z', end: '2025-04-15T10:00:00Z' }, // April 15th, 2025
-        { start: '2025-04-16T09:00:00Z', end: '2025-04-16T10:00:00Z' }, // April 16th, 2025
-        { start: '2025-04-17T09:00:00Z', end: '2025-04-17T10:00:00Z' } // April 17th, 2025
-      ];
-
-      //const intakeStages = this.generateIntakeStagesSchedule(createdIntake);
-      await this._onlineEventsService.createRecurringMeetings(
-        {
-          summary: 'Meeting for abc123',
-          description: 'This is a randomly generated meeting description.',
-          location: 'Online',
-          start: {
-            dateTime: '2025-04-09T10:00:00.000Z'
-          },
-          end: {
-            dateTime: '2025-04-09T11:00:00.000Z'
-          },
-          attendees: ['kutsokon95@gmail.com', 'nikitakutsokon@gmail.com']
-        },
-        dates,
-        {
-          frequency: 'WEEKLY',
-          count: 4,
-          interval: 1,
-          byDays: ['MO']
-        }
-      );
-      //await this._databaseService.intakeStage.createManyRecords(intakeStages, tx);
 
       return createdIntake;
     });

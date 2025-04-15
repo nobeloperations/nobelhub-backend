@@ -1,15 +1,12 @@
 import { Controller, Param, Body, Get, Post, Put, Delete, Query } from '@nestjs/common';
 
-import { Intake } from '@domain/entities/intake.entity';
 import { IntakeUseCases } from '@application/use-cases/intake.use-cases';
-import { FilterQueryOptions } from '@domain/abstractions/integrations/database-service/query-options/filter.query-options';
-
 import { CreateIntakeDto, UpdateIntakeDto, FilterIntakeDto } from '@application/api/dtos';
 import {
   ResourceDocumentation,
   INTAKE_OPERATIONS_DOCS,
   INTAKE_RESOURCE_NAME
-} from '@application/documentation';
+} from '@application/api/documentation';
 
 @Controller(INTAKE_RESOURCE_NAME)
 @ResourceDocumentation(INTAKE_OPERATIONS_DOCS)
@@ -24,19 +21,7 @@ export class IntakeController {
 
   @Get()
   async GetIntakesList(@Query() query: FilterIntakeDto) {
-    const filterOptions: FilterQueryOptions<Intake> = {
-      search: query.search,
-      filters: {
-        programType: query.programType
-      },
-      page: query.page ?? 1,
-      limit: query.limit ?? 10,
-      sortBy:
-        query.sortBy && ((query.sortBy in {}) as unknown as Intake)
-          ? (query.sortBy as keyof Intake)
-          : 'id',
-      order: query.order ?? 'asc'
-    };
+    const filterOptions = query.toFilterOptions();
 
     return await this._intakeUseCases.GetIntakesList(filterOptions);
   }

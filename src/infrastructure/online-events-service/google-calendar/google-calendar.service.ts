@@ -5,7 +5,7 @@ import { OnlineEvent } from '@domain/entities/online-event.entity';
 import {
   OnlineEventsService,
   RecurrenceOptions
-} from '@domain/abstractions/integrations/online-events-service';
+} from '@domain/abstractions/integration-services/online-events-service';
 
 export class GoogleCalendarService implements OnlineEventsService {
   private calendar: calendar_v3.Calendar;
@@ -36,7 +36,7 @@ export class GoogleCalendarService implements OnlineEventsService {
   }
 
   private buildEventRequestBody(
-    event: Event,
+    event: OnlineEvent,
     start: string,
     end: string,
     recurrence?: string[]
@@ -57,7 +57,7 @@ export class GoogleCalendarService implements OnlineEventsService {
     };
   }
 
-  async CreateEvent(event: Event): Promise<Event> {
+  async CreateEvent(event: OnlineEvent): Promise<OnlineEvent> {
     const res = await this.calendar.events.insert({
       calendarId: 'nikita.k@nobelcoaching.com',
       requestBody: this.buildEventRequestBody(
@@ -71,7 +71,7 @@ export class GoogleCalendarService implements OnlineEventsService {
     return { ...event, meetingLink: res.data.hangoutLink, eventIdentifier: res.data.id };
   }
 
-  async UpdateEvent(event: Event): Promise<Event> {
+  async UpdateEvent(event: OnlineEvent): Promise<OnlineEvent> {
     const res = await this.calendar.events.update({
       calendarId: 'nikita.k@nobelcoaching.com',
       eventId: event.eventIdentifier,
@@ -85,7 +85,7 @@ export class GoogleCalendarService implements OnlineEventsService {
     return { ...event, meetingLink: res.data.hangoutLink, eventIdentifier: res.data.id };
   }
 
-  async DeleteEvent(event: Event): Promise<Event> {
+  async DeleteEvent(event: OnlineEvent): Promise<OnlineEvent> {
     await this.calendar.events.delete({
       calendarId: 'nikita.k@nobelcoaching.com',
       eventId: event.eventIdentifier
@@ -95,11 +95,11 @@ export class GoogleCalendarService implements OnlineEventsService {
   }
 
   async CreateRecurringMeetings(
-    event: Event,
+    event: OnlineEvent,
     dates: { start: Date; end: Date }[],
     recurringOptions: RecurrenceOptions
-  ): Promise<Event[]> {
-    const createdEvents: Event[] = [];
+  ): Promise<OnlineEvent[]> {
+    const createdEvents: OnlineEvent[] = [];
     const calendarId = 'nikita.k@nobelcoaching.com';
     const recurrenceRule = this.buildRecurrenceRule(recurringOptions);
 

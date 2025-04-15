@@ -1,6 +1,7 @@
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
+import { SentEmail } from './sent-emaiil.entity';
 import { ContactTag } from './contact-tag.entity';
 
 export enum Gender {
@@ -34,6 +35,9 @@ export class Contact extends BaseEntity {
 
   @Column({ name: 'mailing_subscription', type: 'boolean' })
   mailingSubscription: boolean;
+
+  @OneToMany(() => SentEmail, sentEmail => sentEmail.contact)
+  sentEmails: SentEmail[];
 
   @ManyToMany(() => ContactTag)
   @JoinTable({

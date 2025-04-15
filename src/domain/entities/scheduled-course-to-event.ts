@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Event } from './online-event.entity';
+import { OnlineEvent } from './online-event.entity';
 import { ScheduledCourse } from './scheduled-course.entity';
 
 @Entity('scheduled_courses_events')
@@ -20,6 +20,6 @@ export class ScheduledCourseToEvent {
   @ManyToOne(() => ScheduledCourse, scheduledCourse => scheduledCourse.scheduledCourseToEvents)
   public scheduledCourse: ScheduledCourse;
 
-  @ManyToOne(() => Event, event => event.scheduledCourseToEvents)
-  public event: Event;
+  @ManyToOne(() => OnlineEvent, event => event.scheduledCourseToEvents)
+  public event: OnlineEvent;
 }

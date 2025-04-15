@@ -1,6 +1,6 @@
 import { Intake } from '@domain/entities/intake.entity';
-import { ITransaction } from '@domain/abstractions/integrations/transaction-service';
 
+import { ITransaction } from '../../transaction-service';
 import { FilterQueryOptions } from '../query-options/filter.query-options';
 import { PaginatedResponse } from '../data-models/paginated-response.model';
 
