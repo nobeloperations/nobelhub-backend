@@ -10,17 +10,17 @@ export class CourseUseCases {
   constructor(
     private readonly _databaseService: DatabaseService,
     private readonly _transactionManagerService: TransactionManagerService
-
-  ) { }
+  ) {}
 
   public async CreateCourse(courseData: Course) {
-    courseData.code
-    const createdCourse = await this._transactionManagerService.startTransaction(async (tx: ITransaction) => {
-      const createdCourse = this._databaseService.course.createRecord(courseData, tx);
-      return createdCourse;
-    });
+    courseData.code;
+    const createdCourse = await this._transactionManagerService.startTransaction(
+      async (tx: ITransaction) => {
+        const createdCourse = this._databaseService.course.createRecord(courseData, tx);
+        return createdCourse;
+      }
+    );
     return createdCourse;
-
   }
 
   public async GetCourseById(id: number) {
@@ -37,9 +37,10 @@ export class CourseUseCases {
     const updatedCourse = await this._databaseService.course.updateRecordById(id, courseData);
     return updatedCourse;
   }
+  
   public async deleteRecordById(id: number) {
     const deletedCourse = await this._databaseService.course.deleteRecordById(id);
     return deletedCourse;
-  } 1
-
+  }
+  1;
 }

@@ -1,11 +1,11 @@
 // import { CourseTagResponseDto } from './course-tag-response.dto';
-import { Expose,Exclude } from 'class-transformer';
+import { Expose, Exclude } from 'class-transformer';
+
 @Exclude()
 export class CourseResponseDto {
-
   @Expose()
   code: string;
-  
+
   @Expose()
   name: string;
 
@@ -19,5 +19,5 @@ export class CourseResponseDto {
   resourceUrl: string;
 
   @Expose()
-  tags:[];
+  tags: [];
 }

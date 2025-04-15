@@ -6,7 +6,7 @@ import { CreateCourseDto, UpdateCourseDto, FilterCoursesDto } from '@application
 
 @Controller('courses')
 export class CourseController {
-  constructor(private readonly _courseUseCases: CourseUseCases) { }
+  constructor(private readonly _courseUseCases: CourseUseCases) {}
 
   @Post()
   async CreateCourse(@Body() requestedCourseData: CreateCourseDto) {
