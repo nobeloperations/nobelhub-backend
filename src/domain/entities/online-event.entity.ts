@@ -24,7 +24,7 @@ export class OnlineEvent extends BaseEntity {
   @Column({ name: 'event_identifier', type: 'text', unique: true })
   eventIdentifier: string;
 
-  @ManyToMany(() => Event)
+  @ManyToMany(() => Contact)
   @JoinTable({
     name: 'contacts_events',
     joinColumn: { name: 'event_id' },

@@ -1,11 +1,14 @@
-import { Entity, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 
 import { Intake } from './intake.entity';
 import { BaseEntity } from './base.entity';
+import { IntakeEvent } from './intake-event.entity';
 import { IntakeStageToIntern } from './intake-statge-to-intern.entity';
 
-export enum IntakeStageType {
+export enum IntakeStageName {
+  GUIDANCE = 'Guidance',
   INTORO_COURSES = 'Intro Courses',
+  CAPSTONE_PROJECT = 'Capstone Project',
   ADVANCED_LEADERSHIP = 'Advanced Leadership',
   INTERNSHIP_ONBOARDING = 'Internship Onboarding',
   INTERNSHIP_INITIATION = 'Internship Initiation',
@@ -35,11 +38,6 @@ export class IntakeStage extends BaseEntity {
   @OneToMany(() => IntakeStageToIntern, intakeStageToIntern => intakeStageToIntern.intakeStage)
   intakeStageToInterns: IntakeStageToIntern[];
 
-  @ManyToMany(() => Event)
-  @JoinTable({
-    name: 'intake_stages_events',
-    joinColumn: { name: 'intake_stage_id' },
-    inverseJoinColumn: { name: 'event_id' }
-  })
-  events: Event[];
+  @OneToMany(() => IntakeEvent, intakeEvent => intakeEvent.stage, { cascade: true })
+  events: IntakeEvent[];
 }
