@@ -1,44 +1,52 @@
-import { Controller, Param, Body, Get, Post, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Param, Body, Get, Post, Delete, Query } from '@nestjs/common';
 
-import { IntakeUseCases } from '@application/use-cases/intake.use-cases';
-import { CreateIntakeDto, UpdateIntakeDto, FilterIntakeDto } from '@application/api/dtos';
+import { CreateIntakeDto, FilterIntakeDto } from '@application/api/dtos';
 import {
   ResourceDocumentation,
   INTAKE_OPERATIONS_DOCS,
   INTAKE_RESOURCE_NAME
 } from '@application/api/documentation';
+import { CreateIntakeUseCase } from '@application/use-cases/intake/create-intake.use-case';
+import { GetIntakesListUseCase } from '@application/use-cases/intake/get-intakes-list.use-case';
+import { GetTargetIntakeUseCase } from '@application/use-cases/intake/get-target-intake.use-case';
+import { DeleteIntakeUseCase } from '@application/use-cases/intake/delete-intake.use-case';
+import { GetIntakeStagesUseCase } from '@application/use-cases/intake/get-intake-stages.use-case';
 
 @Controller(INTAKE_RESOURCE_NAME)
 @ResourceDocumentation(INTAKE_OPERATIONS_DOCS)
 export class IntakeController {
-  constructor(private readonly _intakeUseCases: IntakeUseCases) {}
+  constructor(
+    private readonly _createIntakeUseCase: CreateIntakeUseCase,
+    private readonly _deleteIntakeUseCase: DeleteIntakeUseCase,
+    private readonly _getIntakesListUseCase: GetIntakesListUseCase,
+    private readonly _getTargetIntakeUseCase: GetTargetIntakeUseCase,
+    private readonly _getIntakeStagesUseCase: GetIntakeStagesUseCase
+  ) {}
 
   @Post()
   async CreateIntake(@Body() requestedIntakeData: CreateIntakeDto) {
     const intakeData = CreateIntakeDto.toEntity(requestedIntakeData);
-    return await this._intakeUseCases.CreateIntake(intakeData);
+    return await this._createIntakeUseCase.Execute(intakeData);
   }
 
   @Get()
   async GetIntakesList(@Query() query: FilterIntakeDto) {
     const filterOptions = query.toFilterOptions();
-
-    return await this._intakeUseCases.GetIntakesList(filterOptions);
+    return await this._getIntakesListUseCase.Execute(filterOptions);
   }
 
   @Get(':id')
   async GetIntakeById(@Param('id') id: number) {
-    return await this._intakeUseCases.GetIntakeById(id);
-  }
-
-  @Put(':id')
-  async UpdateIntakeById(@Param('id') id: number, @Body() requestedIntakeData: UpdateIntakeDto) {
-    const intakeData = UpdateIntakeDto.toEntity(requestedIntakeData);
-    return await this._intakeUseCases.UpdateIntakeById(id, intakeData);
+    return this._getTargetIntakeUseCase.Execute(id);
   }
 
   @Delete(':id')
   async DeleteIntakeById(@Param('id') id: number) {
-    return await this._intakeUseCases.DeleteIntakeById(id);
+    return this._deleteIntakeUseCase.Execute(id);
+  }
+
+  @Get(':id/stages')
+  async GetStages(@Param('id') id: number) {
+    return this._getIntakeStagesUseCase.Execute(id);
   }
 }

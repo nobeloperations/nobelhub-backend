@@ -17,11 +17,11 @@ export enum IntakeStageType {
 
 @Entity('intake_stages')
 export class IntakeStage extends BaseEntity {
-  @Column({ name: 'stage_type', type: 'text', enum: IntakeStageType })
-  stageType: IntakeStageType;
+  @Column({ name: 'stage_type', type: 'text', enum: IntakeStageName })
+  name: IntakeStageName;
 
-  @Column({ name: 'details', type: 'text' })
-  details: string;
+  @Column({ name: 'description', type: 'text' })
+  description: string;
 
   @Column({ name: 'start_date', type: 'date' })
   startDate: Date;

@@ -12,7 +12,4 @@ export class EmailTemplate extends BaseEntity {
 
   @Column({ name: 'html_body', type: 'text' })
   htmlBody: string;
-
-  @Column({ name: 'text_body', type: 'text', nullable: true })
-  textBody?: string;
 }

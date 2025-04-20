@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
-import { EmailSenderService } from '@domain/abstractions/integration-services/email-sender-service';
+import { EmailSenderService } from '@domain/abstractions/integration-services';
 
 import { AwsEmailService } from '../email-sender-service/aws-ses/aws-email.service';
 
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: EmailSenderService,
@@ -14,4 +16,4 @@ import { AwsEmailService } from '../email-sender-service/aws-ses/aws-email.servi
   ],
   exports: [EmailSenderService]
 })
-export class OnlineEventsServiceModule {}
+export class EmailSenderServiceModule {}

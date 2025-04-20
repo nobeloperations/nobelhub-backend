@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
-import {
-  TransactionManagerService,
-  ITransaction
-} from '@domain/abstractions/integration-services/transaction-service';
+import { TransactionManagerService, ITransaction } from '@domain/abstractions/integration-services';
 
 class Transaction implements ITransaction<EntityManager> {
   constructor(private readonly entityManager: EntityManager) {}
@@ -22,7 +19,7 @@ class Transaction implements ITransaction<EntityManager> {
 export class PostgresTransactionManagerService implements TransactionManagerService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async startTransaction<T>(clb: (tx: ITransaction<EntityManager>) => Promise<T>): Promise<T> {
+  async StartTransaction<T>(clb: (tx: ITransaction<EntityManager>) => Promise<T>): Promise<T> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
