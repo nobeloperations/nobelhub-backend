@@ -5,11 +5,11 @@ import { FilterQueryOptions } from '../query-options/filter.query-options';
 import { PaginatedResponse } from '../data-models/paginated-response.model';
 
 export interface IScheduledCourseRepository {
-  createRecord(data: ScheduledCourse, tx?: ITransaction): Promise<ScheduledCourse>;
-  getRecordById(id: number, tx?: ITransaction): Promise<ScheduledCourse | null>;
-  deleteRecordById(id: number): Promise<ScheduledCourse | null>;
-  updateRecordById(id: number, data: Omit<ScheduledCourse, 'id'>): Promise<ScheduledCourse | null>;
-  getRecordsList(
+  CreateRecord(data: ScheduledCourse, tx?: ITransaction): Promise<ScheduledCourse>;
+  GetRecordById(id: number, tx?: ITransaction): Promise<ScheduledCourse | null>;
+  DeleteRecordById(id: number): Promise<ScheduledCourse | null>;
+  UpdateRecordById(id: number, data: Omit<ScheduledCourse, 'id'>): Promise<ScheduledCourse | null>;
+  GetRecordsList(
     filterOptions: FilterQueryOptions<ScheduledCourse>
   ): Promise<PaginatedResponse<ScheduledCourse>>;
 }

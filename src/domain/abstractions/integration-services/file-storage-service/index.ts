@@ -1,7 +1,7 @@
 export abstract class FileStorageService {
-  abstract createFolder(name: string, parentFolderId?: string): Promise<string>;
-  abstract copyFolderContent(sourceFolderId: string, destinationFolderId: string): Promise<void>;
-  abstract copyFile(
+  abstract CreateFolder(name: string, parentFolderId?: string): Promise<string>;
+  abstract CopyFolder(sourceFolderId: string, parentFolderId: string): Promise<void>;
+  abstract CopyFile(
     sourceFileId: string,
     destinationFolderId: string,
     fileName?: string

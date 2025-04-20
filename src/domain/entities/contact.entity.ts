@@ -3,6 +3,7 @@ import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { SentEmail } from './sent-emaiil.entity';
 import { ContactTag } from './contact-tag.entity';
+import { OnlineEvent } from './online-event.entity';
 
 export enum Gender {
   MALE = 'male',
@@ -46,4 +47,7 @@ export class Contact extends BaseEntity {
     inverseJoinColumn: { name: 'tag_id' }
   })
   tags: ContactTag[];
+
+  @ManyToMany(() => OnlineEvent, onlineEvent => onlineEvent.contacts)
+  events: OnlineEvent[];
 }

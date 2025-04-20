@@ -2,10 +2,7 @@ import { JWT } from 'google-auth-library';
 import { google, calendar_v3 } from 'googleapis';
 
 import { OnlineEvent } from '@domain/entities/online-event.entity';
-import {
-  OnlineEventsService,
-  RecurrenceOptions
-} from '@domain/abstractions/integration-services/online-events-service';
+import { OnlineEventsService, RecurrenceOptions } from '@domain/abstractions/integration-services';
 
 export class GoogleCalendarService implements OnlineEventsService {
   private calendar: calendar_v3.Calendar;

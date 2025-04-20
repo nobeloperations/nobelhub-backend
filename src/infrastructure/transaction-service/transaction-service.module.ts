@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { TransactionManagerService } from '@domain/abstractions/integration-services/transaction-service';
+import { TransactionManagerService } from '@domain/abstractions/integration-services';
 
 import { PostgresTransactionManagerService } from './postgres/postgres-transaction.service';
 

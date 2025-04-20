@@ -1,12 +1,18 @@
+import * as path from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Intake } from '@domain/entities/intake.entity';
-import { DatabaseService } from '@domain/abstractions/integration-services/database-service';
+import { IntakeStage } from '@domain/entities/intake-stage.entity';
+
+import { DatabaseService } from '@domain/abstractions/integration-services';
 
 import { IntakeRepository } from './postgres/repositories/intake.repositoyry';
+import { IntakeStageRepository } from './postgres/repositories/intake-stage.repository';
+
 import { PostgresDatabaseService } from './postgres/postgres-database.service';
-import * as path from 'path';
+import { IntakeEventRepository } from './postgres/repositories/intake-event.repository';
+import { IntakeEvent } from '@domain/entities/intake-event.entity';
 
 @Module({
   imports: [
@@ -21,15 +27,17 @@ import * as path from 'path';
       autoLoadEntities: true,
       entities: [path.resolve(__dirname, '../../domain/entities/*.{js,ts}')]
     }),
-    TypeOrmModule.forFeature([Intake])
+    TypeOrmModule.forFeature([Intake, IntakeStage, IntakeEvent])
   ],
   providers: [
     {
       provide: DatabaseService,
       useClass: PostgresDatabaseService
     },
-    IntakeRepository
+    IntakeRepository,
+    IntakeStageRepository,
+    IntakeEventRepository
   ],
-  exports: [DatabaseService, IntakeRepository]
+  exports: [DatabaseService]
 })
 export class DatabaseServiceModule {}

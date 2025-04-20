@@ -4,5 +4,5 @@ export interface ITransaction<T = unknown> {
 }
 
 export abstract class TransactionManagerService {
-  abstract startTransaction<T>(clb: (tx: ITransaction) => Promise<T>): Promise<T>;
+  abstract StartTransaction<T>(clb: (tx: ITransaction) => Promise<T>): Promise<T>;
 }

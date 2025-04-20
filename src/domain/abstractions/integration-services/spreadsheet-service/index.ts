@@ -1,4 +1,4 @@
 export abstract class SpreadsheetService {
-  abstract readData(sheetId: string, range: string): Promise<any[][]>;
-  abstract writeData(sheetId: string, range: string, values: any[][]): Promise<void>;
+  abstract ReadData(sheetId: string, range: string): Promise<any[][]>;
+  abstract WriteData(sheetId: string, range: string, values: any[][]): Promise<void>;
 }

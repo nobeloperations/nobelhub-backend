@@ -1,48 +1,60 @@
+import * as R from 'ramda';
+import * as nodemailer from 'nodemailer';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
 import { Contact } from '@domain/entities/contact.entity';
-import { SentEmail, EmailSendStatus } from '@domain/entities/sent-emaiil.entity';
 import { EmailTemplate } from '@domain/entities/email-template.entity';
+import { SentEmail, EmailSendStatus } from '@domain/entities/sent-emaiil.entity';
 
-import {
-  EmailAttachment,
-  EmailSenderService
-} from '@domain/abstractions/integration-services/email-sender-service';
+import { EmailSenderService, EmailAttachment } from '@domain/abstractions/integration-services';
 
-import R from 'ramda';
-import * as MailComposer from 'nodemailer/lib/mail-composer';
-import { SendRawEmailCommand, SESClient } from '@aws-sdk/client-ses';
-
-const sesClient = new SESClient({ region: 'us-east-1' });
-
+@Injectable()
 export class AwsEmailService implements EmailSenderService {
+  private readonly CHUNK_SIZE = 5;
+  private readonly DELAY_BETWEEN_CHUNKS_MS = 1000;
+
+  private readonly transporter: nodemailer.Transporter;
+
+  constructor(private configService: ConfigService) {
+    this.transporter = nodemailer.createTransport({
+      host: this.configService.get<string>('EMAIL_SMTP_HOST'),
+      port: this.configService.get<number>('EMAIL_SMTP_PORT'),
+      secure: true,
+      auth: {
+        user: this.configService.get<string>('AWS_SES_SMTP_USER'),
+        pass: this.configService.get<string>('AWS_SES_SMTP_PASSWORD')
+      }
+    });
+  }
+
   private substituteTemplatePlaceholders(
     templateText: string,
     context: Record<string, string>
   ): string {
-    return templateText.replace(/\{\{(\w+)\}\}/g, (_, key) => context[key] || '');
+    return templateText.replace(/\{\{(\w+)\}\}/g, (_, key) => context[key] ?? '');
   }
 
-  private async buildMimeEmail(
-    from: string,
-    to: string,
-    subject: string,
-    htmlBody: string,
-    attachments?: EmailAttachment[]
-  ): Promise<Buffer> {
-    const mail = new MailComposer({
-      from,
-      to,
-      subject,
-      html: htmlBody,
-      attachments: attachments?.map(att => ({
-        filename: att.filename,
-        content: att.content,
-        contentType: att.contentType
-      }))
-    });
+  private async sendInChunks(
+    contacts: Contact[],
+    handler: (contact: Contact, index: number) => Promise<SentEmail>
+  ): Promise<SentEmail[]> {
+    const sentEmails: SentEmail[] = [];
+    const chunks = R.splitEvery(this.CHUNK_SIZE, contacts);
 
-    return await new Promise((resolve, reject) =>
-      mail.compile().build((err, message) => (err ? reject(err) : resolve(message)))
-    );
+    for (const [chunkIndex, chunk] of chunks.entries()) {
+      const results = await Promise.all(
+        chunk.map((contact, index) => handler(contact, chunkIndex * this.CHUNK_SIZE + index))
+      );
+
+      sentEmails.push(...results);
+
+      if (chunkIndex < chunks.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, this.DELAY_BETWEEN_CHUNKS_MS));
+      }
+    }
+
+    return sentEmails;
   }
 
   async SendRawEmail(
@@ -60,16 +72,18 @@ export class AwsEmailService implements EmailSenderService {
     sentEmail.status = EmailSendStatus.SUCCESS;
 
     try {
-      const rawMessage = await this.buildMimeEmail(
-        'noreply@yourdomain.com',
-        recipient.email,
+      await this.transporter.sendMail({
+        from: 'community@nobelhub.com',
+        to: recipient.email,
         subject,
-        body,
-        attachments
-      );
-
-      await sesClient.send(new SendRawEmailCommand({ RawMessage: { Data: rawMessage } }));
-    } catch (error) {
+        html: body,
+        attachments: attachments?.map(att => ({
+          filename: att.filename,
+          content: att.content,
+          contentType: att.contentType
+        }))
+      });
+    } catch (error: any) {
       sentEmail.status = EmailSendStatus.FAILED;
       sentEmail.errorMessage = error?.message ?? 'Unknown error';
     }
@@ -83,25 +97,9 @@ export class AwsEmailService implements EmailSenderService {
     body: string,
     attachments?: EmailAttachment[]
   ): Promise<SentEmail[]> {
-    const chunkSize = 5;
-    const delayBetweenChunksInMs = 1000;
-
-    const sentEmails: SentEmail[] = [];
-    const chunks: Contact[][] = R.splitEvery(chunkSize, recipients);
-
-    for (const contactsChunk of chunks) {
-      const results = await Promise.all(
-        contactsChunk.map(recipient => this.SendRawEmail(recipient, subject, body, attachments))
-      );
-
-      sentEmails.push(...results);
-
-      if (contactsChunk !== chunks[chunks.length - 1]) {
-        await new Promise(resolve => setTimeout(resolve, delayBetweenChunksInMs));
-      }
-    }
-
-    return sentEmails;
+    return this.sendInChunks(recipients, async recipient =>
+      this.SendRawEmail(recipient, subject, body, attachments)
+    );
   }
 
   async SendTemplateEmail(
@@ -118,15 +116,14 @@ export class AwsEmailService implements EmailSenderService {
 
   async SendTemplateEmailBatch(
     recipients: Contact[],
-    emailTemplate: EmailTemplate,
-    contextPerRecipient?: Record<string, string>[],
+    template: EmailTemplate,
+    contextPerRecipient: Record<string, string>[] = [],
     attachments?: EmailAttachment[]
   ): Promise<SentEmail[]> {
-    return Promise.all(
-      recipients.map((recipient, index) => {
-        const context = contextPerRecipient?.[index] || {};
-        return this.SendTemplateEmail(recipient, emailTemplate, context, attachments);
-      })
-    );
+    return this.sendInChunks(recipients, async (recipient, index) => {
+      const context = contextPerRecipient[index] ?? {};
+
+      return this.SendTemplateEmail(recipient, template, context, attachments);
+    });
   }
 }
