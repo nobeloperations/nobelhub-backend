@@ -1,15 +1,12 @@
 import { IsEnum, IsOptional, IsString, IsIn, Min, IsInt } from 'class-validator';
-<<<<<<< HEAD
 
-=======
 import { ApiProperty } from '@nestjs/swagger';
->>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
+
 import { IntakeProgramType } from '@domain/entities/intake.entity';
 import { Type } from 'class-transformer';
 
 export class FilterIntakeDto {
-<<<<<<< HEAD
-=======
+
   @ApiProperty({
     description: 'Search by intake name',
     required: false,

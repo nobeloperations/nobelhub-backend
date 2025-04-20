@@ -85,8 +85,5 @@ export class IntakeUseCases {
 
     return deletedIntake;
   }
-<<<<<<< HEAD
-  
-=======
->>>>>>> 097fb539d48b7b31b61ee063462b82b8ce391717
+
 }
