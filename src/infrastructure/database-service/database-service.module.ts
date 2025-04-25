@@ -11,6 +11,7 @@ import { DatabaseService } from '@domain/abstractions/integration-services';
 
 import { IntakeRepository } from './postgres/repositories/intake.repositoyry';
 import { IntakeStageRepository } from './postgres/repositories/intake-stage.repository';
+import { ContactRepository } from './postgres/repositories/contact.repository';
 
 import { PostgresDatabaseService } from './postgres/postgres-database.service';
 import { IntakeEventRepository } from './postgres/repositories/intake-event.repository';
@@ -38,7 +39,8 @@ import { IntakeEvent } from '@domain/entities/intake-event.entity';
     },
     IntakeRepository,
     IntakeStageRepository,
-    IntakeEventRepository
+    IntakeEventRepository,
+    ContactRepository
   ],
   exports: [DatabaseService]
 })

@@ -1,18 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable, Inject } from '@nestjs/common';
+import { CreateContactDto } from '../../api/dtos/contact/request/create-contact.dto';
 import { Contact } from '../../../domain/entities/contact.entity';
-import { CreateContactDto } from '../../dto/contact/create-contact.dto';
+import { ContactRepository } from '../../../infrastructure/database-service/postgres/repositories/contact.repository';
 
 @Injectable()
 export class CreateContactUseCase {
   constructor(
-    @InjectRepository(Contact)
-    private readonly contactRepository: Repository<Contact>,
+    @Inject('ContactRepository')
+    private readonly contactRepository: ContactRepository
   ) {}
 
   async execute(dto: CreateContactDto): Promise<Contact> {
-    const contact = this.contactRepository.create(dto);
+    const contact = CreateContactDto.toEntity(dto);
     return await this.contactRepository.save(contact);
   }
 } 
+

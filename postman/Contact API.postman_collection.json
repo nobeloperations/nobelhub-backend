@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Contact API",
+		"description": "Collection for testing Contact API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Contact",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"+1234567890\",\n    \"companyName\": \"Acme Inc\",\n    \"position\": \"Software Engineer\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/contacts",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["api", "v1", "contacts"]
+				}
+			}
+		},
+		{
+			"name": "Get All Contacts",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "http://localhost:3000/api/v1/contacts",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["api", "v1", "contacts"]
+				}
+			}
+		},
+		{
+			"name": "Get Contact by ID",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["api", "v1", "contacts", "{{contactId}}"]
+				}
+			}
+		},
+		{
+			"name": "Update Contact",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"+1234567890\",\n    \"companyName\": \"Acme Inc\",\n    \"position\": \"Senior Software Engineer\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["api", "v1", "contacts", "{{contactId}}"]
+				}
+			}
+		},
+		{
+			"name": "Delete Contact",
+			"request": {
+				"method": "DELETE",
+				"url": {
+					"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["api", "v1", "contacts", "{{contactId}}"]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "contactId",
+			"value": "your-contact-id-here"
+		}
+	]
+} 
