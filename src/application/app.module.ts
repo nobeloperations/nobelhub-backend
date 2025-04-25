@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { IntakeController } from './api/controllers/intake.controller';
+import { ContactController } from './api/controllers/contact.controller';
 
 import { DatabaseServiceModule } from '@infrastructure/database-service/database-service.module';
 import { TransactionManagerModule } from '@infrastructure/transaction-service/transaction-service.module';
@@ -17,18 +19,23 @@ import { GetIntakeStagesUseCase } from './use-cases/intake/get-intake-stages.use
 import { IntakeStageController } from './api/controllers/intake-stage.controller';
 import { GetIntakeStageEvents } from './use-cases/intake-stage/get-stage-events.use-case';
 
+import { Contact } from '../domain/entities/contact.entity';
+import { ContactService } from './services/contact.service';
+import { CreateContactUseCase } from './use-cases/contact/create-contact.use-case';
+
 @Module({
   imports: [
     DatabaseServiceModule,
     TransactionManagerModule,
     OnlineEventsServiceModule,
     EmailSenderServiceModule,
+    TypeOrmModule.forFeature([Contact]),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env'
     })
   ],
-  controllers: [IntakeController, IntakeStageController],
+  controllers: [IntakeController, IntakeStageController, ContactController],
   providers: [
     CreateIntakeUseCase,
     IntakeScheduleGenerator,
@@ -36,7 +43,9 @@ import { GetIntakeStageEvents } from './use-cases/intake-stage/get-stage-events.
     GetTargetIntakeUseCase,
     DeleteIntakeUseCase,
     GetIntakeStagesUseCase,
-    GetIntakeStageEvents
+    GetIntakeStageEvents,
+    ContactService,
+    CreateContactUseCase
   ]
 })
 export class AppModule {}

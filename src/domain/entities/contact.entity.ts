@@ -1,53 +1,35 @@
-import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-
-import { BaseEntity } from './base.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { SentEmail } from './sent-emaiil.entity';
-import { ContactTag } from './contact-tag.entity';
-import { OnlineEvent } from './online-event.entity';
-
-export enum Gender {
-  MALE = 'male',
-  FEMALE = 'female',
-  OTHER = 'other'
-}
 
 @Entity('contacts')
-export class Contact extends BaseEntity {
-  @Column({ name: 'first_name', type: 'text' })
+export class Contact {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   firstName: string;
 
-  @Column({ name: 'last_name', type: 'text' })
+  @Column()
   lastName: string;
 
-  @Column({ name: 'email', type: 'text', unique: true })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ name: 'country', type: 'text' })
-  country: string;
+  @Column({ nullable: true })
+  phone: string;
 
-  @Column({ name: 'gender', type: 'enum', enum: Gender })
-  gender: Gender;
+  @Column({ nullable: true })
+  company: string;
 
-  @Column({ name: 'birth_date', type: 'date' })
-  birthdate: Date;
-
-  @Column({ name: 'timezone_name', type: 'text' })
-  timezoneName: string;
-
-  @Column({ name: 'mailing_subscription', type: 'boolean' })
-  mailingSubscription: boolean;
+  @Column({ nullable: true })
+  position: string;
 
   @OneToMany(() => SentEmail, sentEmail => sentEmail.contact)
   sentEmails: SentEmail[];
 
-  @ManyToMany(() => ContactTag)
-  @JoinTable({
-    name: 'contacts_tags',
-    joinColumn: { name: 'contact_id' },
-    inverseJoinColumn: { name: 'tag_id' }
-  })
-  tags: ContactTag[];
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @ManyToMany(() => OnlineEvent, onlineEvent => onlineEvent.contacts)
-  events: OnlineEvent[];
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
