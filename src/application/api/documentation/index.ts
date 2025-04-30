@@ -4,3 +4,5 @@ export * from './decorators/resource-documentation.decorator';
 
 export * from './resources/intake';
 export * from './resources/intake-stage';
+
+export * from './resources/course';
