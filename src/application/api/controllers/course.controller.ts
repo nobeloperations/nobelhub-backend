@@ -51,6 +51,4 @@ async DeleteCourse(@Param('id') id: number) {
     return this._deleteCourseUseCase.Execute(id);
 }
     
-
-  
 }
