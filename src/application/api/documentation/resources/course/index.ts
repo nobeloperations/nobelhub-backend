@@ -6,7 +6,7 @@ import { DELETE_COURSES_BY_ID } from './operations/delete-record-by-id.doc';
 
 export const COURSE_RESOURCE_NAME = 'course';
 
-export const INTAKE_OPERATIONS_DOCS = {
+export const COURSE_OPERATIONS_DOCS = {
   tag: 'Courses',
   description:
     'Handles Course-related actions including creation, updating, deletion, retrieval by ID, and listing of all courses.',
