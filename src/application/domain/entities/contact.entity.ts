@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { SentEmail } from './sent-emaiil.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('contacts')
 export class Contact {
@@ -16,20 +15,17 @@ export class Contact {
   email: string;
 
   @Column({ nullable: true })
-  phone: string;
+  phoneNumber: string;
 
   @Column({ nullable: true })
-  company: string;
+  companyName: string;
 
   @Column({ nullable: true })
   position: string;
-
-  @OneToMany(() => SentEmail, sentEmail => sentEmail.contact)
-  sentEmails: SentEmail[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-}
+} 

@@ -5,7 +5,7 @@ import IIntakeRepository from '@domain/abstractions/integration-services/databas
 
 import { IntakeRepository } from './repositories/intake.repositoyry';
 import { ICourseRepository} from '@domain/abstractions/integration-services/database-service/repositories/course.abstract-repository';
-import { CourseRespository } from './repositories/course.repository';
+import { CourseRepository } from './repositories/course.repository';
 import IIntakeStageRepository from '@domain/abstractions/integration-services/database-service/repositories/intake-stage.abstract-repository';
 import { IntakeStageRepository } from './repositories/intake-stage.repository';
 import IIntakeEventRepository from '@domain/abstractions/integration-services/database-service/repositories/intake-event.abstract-repository';
@@ -21,7 +21,7 @@ export class PostgresDatabaseService implements DatabaseService {
   constructor(
     private readonly intakeRepository: IntakeRepository,
     private readonly intakeStageRepository: IntakeStageRepository,
-    private readonly courseRepository: CourseRespository,
+    private readonly courseRepository: CourseRepository,
     private readonly intakeEventRepository: IntakeEventRepository
   ) {
     this.intake = intakeRepository;

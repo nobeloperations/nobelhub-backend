@@ -1,18 +1,19 @@
 import * as path from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 
 import { Intake } from '@domain/entities/intake.entity';
 import { Course } from '@domain/entities/course.entity';
 import { IntakeStage } from '@domain/entities/intake-stage.entity';
+import { Contact } from '@domain/entities/contact.entity';
 
 import { DatabaseService } from '@domain/abstractions/integration-services';
 
 import { IntakeRepository } from './postgres/repositories/intake.repositoyry';
 import { IntakeStageRepository } from './postgres/repositories/intake-stage.repository';
-
-
-import { CourseRespository } from './postgres/repositories/course.repository';    
+import { ContactRepository } from './postgres/repositories/contact.repository';
+import { CourseRepository } from './postgres/repositories/course.repository';    
 
 import { PostgresDatabaseService }  from './postgres/postgres-database.service';
 import { IntakeEventRepository } from './postgres/repositories/intake-event.repository';
@@ -22,7 +23,7 @@ import { IntakeEvent } from '@domain/entities/intake-event.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'db',
+      host: 'localhost',
       port: 5432,
       username: 'postgres',
       password: 'postgres',
@@ -31,7 +32,7 @@ import { IntakeEvent } from '@domain/entities/intake-event.entity';
       autoLoadEntities: true,
       entities: [path.resolve(__dirname, '../../domain/entities/*.{js,ts}')]
     }),
-    TypeOrmModule.forFeature([Intake, Course, IntakeStage, IntakeEvent])
+    TypeOrmModule.forFeature([Intake, IntakeStage, IntakeEvent, Course, Contact])
   ],
   providers: [
     {
@@ -39,10 +40,11 @@ import { IntakeEvent } from '@domain/entities/intake-event.entity';
       useClass: PostgresDatabaseService
     },
     IntakeRepository,
-    CourseRespository,
+    CourseRepository,
     IntakeStageRepository,
-    IntakeEventRepository
+    IntakeEventRepository,
+    ContactRepository
   ],
-  exports: [DatabaseService]
+  exports: [DatabaseService, CourseRepository, ContactRepository]
 })
 export class DatabaseServiceModule {}

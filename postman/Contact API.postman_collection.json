@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Contact API",
+		"description": "Collection for testing Contact API endpoints with various scenarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Contact",
+			"item": [
+				{
+					"name": "Success - Create Valid Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"+1234567890\",\n    \"company\": \"Acme Inc\",\n    \"position\": \"Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts"]
+						}
+					}
+				},
+				{
+					"name": "Error - Missing Required Fields",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts"]
+						}
+					}
+				},
+				{
+					"name": "Error - Invalid Email Format",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"invalid-email\",\n    \"phone\": \"+1234567890\",\n    \"company\": \"Acme Inc\",\n    \"position\": \"Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts"]
+						}
+					}
+				},
+				{
+					"name": "Error - Invalid Phone Format",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"invalid-phone\",\n    \"company\": \"Acme Inc\",\n    \"position\": \"Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Get Contacts",
+			"item": [
+				{
+					"name": "Success - Get All Contacts",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts"]
+						}
+					}
+				},
+				{
+					"name": "Success - Get Contact by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "{{contactId}}"]
+						}
+					}
+				},
+				{
+					"name": "Error - Get Non-Existent Contact",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/non-existent-id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "non-existent-id"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Update Contact",
+			"item": [
+				{
+					"name": "Success - Update Contact",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"+1234567890\",\n    \"company\": \"Acme Inc\",\n    \"position\": \"Senior Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "{{contactId}}"]
+						}
+					}
+				},
+				{
+					"name": "Error - Update Non-Existent Contact",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"position\": \"Senior Software Engineer\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/non-existent-id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "non-existent-id"]
+						}
+					}
+				},
+				{
+					"name": "Error - Update with Invalid Data",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"invalid-email\",\n    \"phone\": \"invalid-phone\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "{{contactId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Delete Contact",
+			"item": [
+				{
+					"name": "Success - Delete Contact",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/{{contactId}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "{{contactId}}"]
+						}
+					}
+				},
+				{
+					"name": "Error - Delete Non-Existent Contact",
+					"request": {
+						"method": "DELETE",
+						"url": {
+							"raw": "http://localhost:3000/api/v1/contacts/non-existent-id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3000",
+							"path": ["api", "v1", "contacts", "non-existent-id"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "contactId",
+			"value": "your-contact-id-here",
+			"type": "string"
+		}
+	]
+} 

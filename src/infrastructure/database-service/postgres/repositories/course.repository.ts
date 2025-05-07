@@ -8,7 +8,7 @@ import ICourseRepository from '@domain/abstractions/integration-services/databas
 import { FilterQueryOptions } from '@domain/abstractions/integration-services/database-service/query-options/filter.query-options';
 
 @Injectable()
-export class CourseRespository implements ICourseRepository {
+export class CourseRepository implements ICourseRepository {
   constructor(
     @InjectRepository(Course)
     private readonly _repo: Repository<Course>
