@@ -13,9 +13,7 @@ import { DatabaseService } from '@domain/abstractions/integration-services';
 import { IntakeRepository } from './postgres/repositories/intake.repositoyry';
 import { IntakeStageRepository } from './postgres/repositories/intake-stage.repository';
 import { ContactRepository } from './postgres/repositories/contact.repository';
-
-
-import { CourseRespository } from './postgres/repositories/course.repository';    
+import { CourseRepository } from './postgres/repositories/course.repository';    
 
 import { PostgresDatabaseService }  from './postgres/postgres-database.service';
 import { IntakeEventRepository } from './postgres/repositories/intake-event.repository';
@@ -34,7 +32,7 @@ import { IntakeEvent } from '@domain/entities/intake-event.entity';
       autoLoadEntities: true,
       entities: [path.resolve(__dirname, '../../domain/entities/*.{js,ts}')]
     }),
-    TypeOrmModule.forFeature([Intake, IntakeStage, IntakeEvent])
+    TypeOrmModule.forFeature([Intake, IntakeStage, IntakeEvent, Course, Contact])
   ],
   providers: [
     {
@@ -42,11 +40,11 @@ import { IntakeEvent } from '@domain/entities/intake-event.entity';
       useClass: PostgresDatabaseService
     },
     IntakeRepository,
-    CourseRespository,
+    CourseRepository,
     IntakeStageRepository,
     IntakeEventRepository,
     ContactRepository
   ],
-  exports: [DatabaseService]
+  exports: [DatabaseService, CourseRepository, ContactRepository]
 })
 export class DatabaseServiceModule {}
